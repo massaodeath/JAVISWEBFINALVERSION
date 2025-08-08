@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos - Javis</title>
+    <link rel="stylesheet" href="links/styless.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Cabeçalho -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <!-- Logo -->
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Cursos.html" target="_blank" rel="noopener">Cursos</a></li>
+                    <li><a href="links/portal.html" target="_blank" rel="noopener">Portal do Aluno</a></li>
+                    <li><a href="links/faleconosco.html" target="_blank" rel="noopener" class="active">Fale Conosco</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>O seu portfólio começa aqui.</h2>
+            <p>Explore todo o seu potencial criativo. Inscreva-se agora nos Cursos da <strong>JavisGameAcademy!</strong></p>
+            <a href="#form" class="btn">Inscreva-se</a>
+        </div>
+    </section>
+
+    <!-- Formulário de Inscrição -->
+    <section class="form-section" id="form">
+        <div class="container">
+
+            <!-- Texto à esquerda -->
+            <div class="form-text">
+                <h2>EXPLORE TODO O SEU POTENCIAL CRIATIVO</h2>
+                <p>
+                    O Art Suite da Escola SAGA é uma imersão completa no mundo das artes digitais.  
+                    Em apenas 24 meses, você aprenderá habilidades práticas para criar projetos e conquistar seu espaço no mercado criativo.
+                </p>
+                <p>
+                    Um curso que reúne design gráfico, edição de vídeo, modelagem 3D, criação de interfaces, composição de imagens, branding e muito mais, deixando você preparado para atuar nas áreas mais valorizadas do mercado criativo.
+                </p>
+            </div>
+
+            <!-- Formulário à direita -->
+            <form>
+                <h3>Inscreva-se</h3>
+                <p>Transforme sua paixão em renda.</p>
+
+                <input type="text" placeholder="Nome" required>
+                <input type="email" placeholder="E-mail" required>
+                <input type="tel" placeholder="+55 (99) 99999-9999" required>
+                <input type="date" placeholder="Data de nascimento" required>
+
+                <select required>
+                    <option value="">Estado</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                </select>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" id="aceito" required>
+                    <label for="aceito">
+                        Eu li e aceito os termos e condições da 
+                        <a href="#">Política de Privacidade</a> e 
+                        <a href="#">Contrato de Prestação de Serviço</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn">Enviar</button>
+            </form>
+
+        </div>
+    </section>
+
+    <!-- Cursos -->
+    <section class="cursos" id="cursos">
+        <div class="container">
+            <h2>Cursos em Destaque</h2>
+            <div class="cursos-list">
+                <div class="curso-card">
+                    <div class="image-placeholder"></div>
+                    <h3>Design Toolkit</h3>
+                    <p>Aprenda as ferramentas de design mais usadas no mercado.</p>
+                    <a href="#" class="btn">Saiba Mais</a>
+                </div>
+                <div class="curso-card">
+                    <div class="image-placeholder"></div>
+                    <h3>Animação</h3>
+                    <p>Crie animações 2D e 3D para diversos tipos de mídia.</p>
+                    <a href="#" class="btn">Saiba Mais</a>
+                </div>
+                <div class="curso-card">
+                    <div class="image-placeholder"></div>
+                    <h3>3D Design</h3>
+                    <p>Desenvolva modelos 3D com ferramentas especializadas.</p>
+                    <a href="#" class="btn">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="footer" id="faleconosco">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Redes Sociais</h3>
+                <a href="https://instagram.com/javiscuiaba" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.twitch.tv/javisgameacademy" target="_blank" rel="noopener"><i class="fab fa-twitch"></i></a>
+                <a href="https://www.youtube.com/@JavisGameAcademy" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="footer-column">
+                <h3>Contato</h3>
+                <ul>
+                    <li><a href="mailto:contato@saga.com.br">Email</a></li>
+                    <li><a href="tel:+5565">Telefone</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 JavisGameAcademy. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
