@@ -8,7 +8,7 @@ body {
     font-family: Arial, sans-serif;
     background: url('background.jpg') no-repeat center center fixed;
     background-size: cover;
-    height: 100vh;     background-color: #000; /* Azul claro */ 
+    height: 100vh;     background-color: #373738a4; /* Azul claro */ 
 }
 
 .container {
@@ -25,13 +25,13 @@ body {
     left: -10px; /* Ajuste conforme necessário */
     right: -10px; /* Ajuste conforme necessário */
     bottom: -10px; /* Ajuste conforme necessário */
-    background: linear-gradient(to right, #292828, #31302fce); /* Exemplo de gradiente */
+    background: linear-gradient(to right, #2a2747, #31302fce); /* Exemplo de gradiente */
     border-radius: 10px; /* Mesma medida de arredondamento */
     z-index: -1; /* Para colocar atrás do container */
 }
 
 .form-container {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
