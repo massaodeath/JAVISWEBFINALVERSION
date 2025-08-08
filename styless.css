@@ -228,6 +228,15 @@ body {
     border-radius: 8px;
 }
 
+a {
+  color: white;
+  text-decoration: underline; /* opcional: remove se não quiser sublinhado */
+}
+
+a:hover {
+  color: #00ffcc; /* cor no hover, se quiser */
+}
+
 /* Rodapé */
 .footer {
     background-color: #0f0f0f;
