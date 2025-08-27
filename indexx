@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Cursos - Lista</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --glass-effect: rgba(255, 255, 255, 0.2);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .courses-list {
+            flex: 1;
+            max-width: 450px;
+        }
+
+        .course-item {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .course-item:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        .course-item.active {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .course-icon {
+            font-size: 1.8rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+        }
+
+        .course-info {
+            flex: 1;
+        }
+
+        .course-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .course-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .course-progress {
+            width: 80px;
+            text-align: right;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .course-details-panel {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(247, 250, 252, 0.98) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            color: var(--text-primary);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .details-content {
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-right: 5px;
+        }
+
+        .details-content::-webkit-scrollbar {
+            width: 0;
+            display: none;
+        }
+
+        .details-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(241, 243, 244, 0.8);
+        }
+
+        .details-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            background: rgba(241, 243, 244, 0.8);
+            padding: 1rem;
+            border-radius: 15px;
+        }
+
+        .details-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .details-content p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-section {
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            background: rgba(226, 232, 240, 0.8);
+            height: 8px;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            background: rgba(247, 250, 252, 0.8);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .modules-list {
+            margin-top: 1rem;
+        }
+
+        .module-item {
+            background: rgba(247, 250, 252, 0.8);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .module-check {
+            color: #48bb78;
+            font-size: 1.2rem;
+        }
+
+        .no-selection {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 3rem;
+            background: rgba(247, 250, 252, 0.8);
+            border-radius: 20px;
+            margin-top: 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .no-selection i {
+            font-size: 4rem;
+            color: #cbd5e0;
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .courses-list {
+                max-width: 100%;
+            }
+            
+            .course-details-panel {
+                max-width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .course-item {
+                padding: 1rem;
+            }
+            
+            .course-icon {
+                font-size: 1.5rem;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .course-title {
+                font-size: 1.1rem;
+            }
+            
+            .course-progress {
+                font-size: 0.9rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="courses-section">
+            <header class="header">
+                <h1>Minha Lista de Cursos</h1>
+                <p>Clique em um curso para ver os detalhes completos</p>
+            </header>
+
+            <div class="courses-list">
+                <!-- Desenvolvimento Web -->
+                <div class="course-item" data-course="web-dev">
+                    <div class="course-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">GAME PRO</h3>
+                        <p class="course-description">Full-stack com tecnologias modernas</p>
+                    </div>
+                    <div class="course-progress">85%</div>
+                </div>
+
+                <!-- Data Science -->
+                <div class="course-item" data-course="data-science">
+                    <div class="course-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">DESIGNER START</h3>
+                        <p class="course-description">Python, ML e análise de dados</p>
+                    </div>
+                    <div class="course-progress">70%</div>
+                </div>
+
+                <!-- UX/UI Design -->
+                <div class="course-item" data-course="ux-ui">
+                    <div class="course-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">GAME DEV</h3>
+                        <p class="course-description">Design centrado no usuário</p>
+                    </div>
+                    <div class="course-progress">95%</div>
+                </div>
+
+                <!-- Cloud Computing -->
+                <div class="course-item" data-course="cloud">
+                    <div class="course-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">STREAMING</h3>
+                        <p class="course-description">AWS, Azure e Google Cloud</p>
+                    </div>
+                    <div class="course-progress">60%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="course-details-panel" id="detailsPanel">
+            <div class="no-selection" id="noSelection">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Selecione um curso</h3>
+                <p>Clique em um curso da lista ao lado para ver os detalhes completos, progresso e módulos.</p>
+            </div>
+
+            <div class="details-content" id="detailsContent" style="display: none;">
+                <div class="details-header">
+                    <div class="details-icon" id="detailsIcon"></div>
+                    <div>
+                        <h2 id="detailsTitle"></h2>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="detailsProgress"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p id="detailsDescription"></p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statDuration"></div>
+                        <div class="stat-label">Horas totais</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statLevel"></div>
+                        <div class="stat-label">Nível</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statModules"></div>
+                        <div class="stat-label">Módulos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statProgress"></div>
+                        <div class="stat-label">Completos</div>
+                    </div>
+                </div>
+
+                <h3>Módulos do Curso</h3>
+                <div class="modules-list" id="modulesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 Meu Portfolio de Cursos. Desenvolvido para mostrar minha jornada de aprendizado.</p>
+    </footer>
+
+    <script>
+        const courseData = {
+            'web-dev': {
+                title: 'Game PRO',
+                icon: 'fas fa-code',
+                description: 'Este curso abrange todas as tecnologias essenciais para se tornar um desenvolvedor web full-stack. Inclui HTML5, CSS3, JavaScript, React, Node.js, Express, MongoDB e muito mais. Aprenda a criar aplicações web modernas e responsivas desde o básico até conceitos avançados.',
+                progress: 85,
+                duration: '120h',
+                level: 'Intermediário',
+                modules: 12,
+                completed: 10,
+                modulesList: [
+                    'Fundamentos de HTML5 e CSS3',
+                    'JavaScript Moderno (ES6+)',
+                    'Responsive Design',
+                    'React e Componentes',
+                    'Node.js e Express',
+                    'Banco de Dados MongoDB',
+                    'APIs RESTful',
+                    'Autenticação e Segurança',
+                    'Deploy e DevOps',
+                    'Projeto Final - E-commerce',
+                    'Otimização de Performance',
+                    'Técnicas Avançadas'
+                ]
+            },
+            'data-science': {
+                title: 'Data Science com Python',
+                icon: 'fas fa-chart-line',
+                description: 'Curso completo de ciência de dados cobrindo Pandas, NumPy, Matplotlib, Scikit-learn e técnicas avançadas de machine learning. Aprenda a analisar dados, criar visualizações impactantes e construir modelos preditivos.',
+                progress: 70,
+                duration: '90h',
+                level: 'Avançado',
+                modules: 10,
+                completed: 7,
+                modulesList: [
+                    'Python para Data Science',
+                    'Pandas e Manipulação de Dados',
+                    'Visualização com Matplotlib',
+                    'Estatística Descritiva',
+                    'Machine Learning Básico',
+                    'Algoritmos de Classificação',
+                    'Regressão e Clusterização',
+                    'Deep Learning Básico',
+                    'Projeto Prático',
+                    'Apresentação de Resultados'
+                ]
+            },
+            'ux-ui': {
+                title: 'Design de Experiência do Usuário',
+                icon: 'fas fa-paint-brush',
+                description: 'Aprenda a criar interfaces que são tanto bonitas quanto funcionais. Inclui design thinking, pesquisa de usuário, prototipação, testes de usabilidade e princípios de acessibilidade.',
+                progress: 95,
+                duration: '80h',
+                level: 'Intermediário',
+                modules: 8,
+                completed: 8,
+                modulesList: [
+                    'Fundamentos de UX/UI',
+                    'Pesquisa com Usuários',
+                    'Wireframing e Prototipação',
+                    'Design System',
+                    'Ferramentas (Figma, Sketch)',
+                    'Testes de Usabilidade',
+                    'Acessibilidade',
+                    'Projeto Final'
+                ]
+            },
+            'cloud': {
+                title: 'Computação em Nuvem Avançada',
+                icon: 'fas fa-cloud',
+                description: 'Domine os serviços de cloud computing das principais plataformas. Inclui AWS, Azure, Google Cloud, arquiteturas serverless, containers com Docker e Kubernetes, e boas práticas de infraestrutura.',
+                progress: 60,
+                duration: '100h',
+                level: 'Avançado',
+                modules: 12,
+                completed: 7,
+                modulesList: [
+                    'Fundamentos de Cloud',
+                    'AWS EC2 e S3',
+                    'Azure Services',
+                    'Google Cloud Platform',
+                    'Serverless Architecture',
+                    'Docker e Containers',
+                    'Kubernetes',
+                    'Monitoramento e Logs',
+                    'Segurança em Cloud',
+                    'Auto-scaling',
+                    'Migração para Cloud',
+                    'Projeto Prático'
+                ]
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseItems = document.querySelectorAll('.course-item');
+            const detailsPanel = document.getElementById('detailsPanel');
+            const noSelection = document.getElementById('noSelection');
+            const detailsContent = document.getElementById('detailsContent');
+            
+            courseItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    courseItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Show details
+                    const courseId = this.dataset.course;
+                    showCourseDetails(courseId);
+                });
+            });
+            
+            function showCourseDetails(courseId) {
+                const course = courseData[courseId];
+                
+                if (!course) return;
+                
+                // Hide no selection message and show details
+                noSelection.style.display = 'none';
+                detailsContent.style.display = 'block';
+                
+                // Update details
+                document.getElementById('detailsIcon').innerHTML = `<i class="${course.icon}"></i>`;
+                document.getElementById('detailsTitle').textContent = course.title;
+                document.getElementById('detailsDescription').textContent = course.description;
+                document.getElementById('detailsProgress').style.width = `${course.progress}%`;
+                
+                // Update stats
+                document.getElementById('statDuration').textContent = course.duration;
+                document.getElementById('statLevel').textContent = course.level;
+                document.getElementById('statModules').textContent = course.modules;
+                document.getElementById('statProgress').textContent = `${course.progress}%`;
+                
+                // Update modules list
+                const modulesList = document.getElementById('modulesList');
+                modulesList.innerHTML = '';
+                
+                course.modulesList.forEach((module, index) => {
+                    const isCompleted = index < course.completed;
+                    const moduleItem = document.createElement('div');
+                    moduleItem.className = 'module-item';
+                    moduleItem.innerHTML = `
+                        <i class="fas ${isCompleted ? 'fa-check-circle module-check' : 'fa-circle'}"></i>
+                        <span>${module}</span>
+                    `;
+                    modulesList.appendChild(moduleItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
