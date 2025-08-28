@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Cursos - Lista</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS separado -->
+    <style>
+        .module-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Usa a cor do texto pai */
+            display: flex;
+            align-items: center;
+        }
+
+        .module-link:hover {
+            color: #007bff; /* Cor ao passar o mouse */
+        }
+
+        .submodules-list {
+            display: none; /* Oculta a lista de submódulos por padrão */
+            margin-left: 20px; /* Indentação para submódulos */
+        }
+
+        .submodule-item {
+            margin: 5px 0; /* Espaçamento entre submódulos */
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="user-menu">
+    <div class="user-info">
+        <i class="fas fa-user-circle user-icon"></i>
+        <span class="user-name">Nome do Usuário</span>
+    </div>
+    <ul class="menu-options">
+        <li><a href="#profile">Home</a></li>
+        <li><a href="#settings">Configurações</a></li>
+        <li><a href="#logout">Sair</a></li>
+    </ul>
+</div>
+
+    <div class="container">
+        <div class="courses-section">
+            <header class="header">
+                <h1>Meus Cursos</h1>
+                <p>Clique para ver o andamento dos seus cursos</p>
+            </header>
+
+            <div class="courses-list">
+                <!-- Desenvolvimento Web -->
+                <div class="course-item" data-course="web-dev">
+                    <div class="course-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">GAME PRO</h3>
+                        <p class="course-description">Designer Digital e ProPlayer</p>
+                    </div>
+                    <div class="course-progress"></div>
+                </div>
+
+                <!-- Data Science -->
+                <div class="course-item" data-course="data-science">
+                    <div class="course-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">DESIGNER START</h3>
+                        <p class="course-description">Computação Gráfica</p>
+                    </div>
+                    <div class="course-progress"></div>
+                </div>
+
+                <!-- UX/UI Design -->
+                <div class="course-item" data-course="ux-ui">
+                    <div class="course-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">GAME DEV</h3>
+                        <p class="course-description">Programação em Jogos</p>
+                    </div>
+                    <div class="course-progress"></div>
+                </div>
+
+                <!-- Cloud Computing -->
+                <div class="course-item" data-course="cloud">
+                    <div class="course-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">STREAMING</h3>
+                        <p class="course-description">Criação de Conteúdo</p>
+                    </div>
+                    <div class="course-progress"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="course-details-panel" id="detailsPanel">
+            <div class="no-selection" id="noSelection">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Selecione um curso</h3>
+                <p>Clique em um curso da lista ao lado para ver os detalhes completos, progresso e módulos.</p>
+            </div>
+
+            <div class="details-content" id="detailsContent" style="display: none;">
+                <div class="details-header">
+                    <div class="details-icon" id="detailsIcon"></div>
+                    <div>
+                        <h2 id="detailsTitle"></h2>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="detailsProgress"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p id="detailsDescription"></p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statDuration"></div>
+                        <div class="stat-label">Horas totais</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statLevel"></div>
+                        <div class="stat-label">Nível</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statModules"></div>
+                        <div class="stat-label">Módulos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statProgress"></div>
+                        <div class="stat-label">Completos</div>
+                    </div>
+                </div>
+
+                <h3>Módulos do Curso</h3>
+                <div class="modules-list" id="modulesList"></div>
+            </div>
+        </div>
+    </div>
+
+   
+    </footer>
+
+    <script>
+        const courseData = {  
+            'web-dev': {
+                title: 'Modulo 1 ',
+                icon: 'fas fa-code',
+                description: 'Este curso abrange ferramentas de designer grafico voltados a artes digitais e logos tudo para que o usuario possa ter a a capacidade tecnica de atuar na area e no mercado de trabalho. Junto com o Pro Player onde desenvolve habilidades de jogos competitivos, estratégias e táticas avançadas para se destacar em torneios de e-sports. tecnicas avançadas de comunicação e trabalho em equipe, essenciais para o sucesso em ambientes de alta pressão.e comportamentos profissionais necessários para uma carreira sustentável em e-sports, incluindo gestão de tempo, saúde mental e física, e construção de uma marca pessoal forte.',
+                progress: 0,
+                duration: '120h',
+                level: 'Intermediário',
+                modules: 8,
+                completed: 10,
+                modulesList: [
+                    {
+                        name: 'Designer e Inovação',
+                        submodules: ['Introdução ao Design', 'Técnicas de Inovação', 'Estudos de Caso', 'Ferramentas de Design', 'Trabalho em Grupo', 'Apresentação de Projetos']
+                    },
+                
+                    {
+                        name: 'Fundamentos de E-sports',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },// Adicione mais módulos conforme necessário
+
+                   {
+                        name: 'Pacote Adobe',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'Pro Player 1',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'Pacote Adobe videos',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'Estrategias e Taticas',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'Ingles para Cyber Atletas',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'Pro Player 2',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+                ]
+            },
+            'data-science': {       
+                title: 'Designer Start', // AQUI E ONDE ESTA O DESIGNER START
+                icon: 'fas fa-chart-line',
+                description: '',
+                progress: 0,
+                duration: '120h',
+                level: 'intermediário',
+                modules: 8,
+                completed: 7,
+                modulesList: [
+                    {
+                        name: 'Canva',
+                        submodules: ['Introdução ao Canva', 'Design de Apresentações', 'Criação de Posts', 'Edição de Imagens', 'Colaboração em Projetos', 'Exportação de Arquivos']
+                    },
+                    {
+                        name: 'Photoshop',
+                        submodules: ['Ferramentas Básicas', 'Edição de Fotos', 'Criação de Gráficos', 'Trabalho com Camadas', 'Efeitos Especiais', 'Exportação de Projetos']
+                    },
+                    {
+                        name: 'Illustrator',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },// Adicione mais módulos conforme necessário
+
+                   {
+                        name: 'InDesign',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'Premiere Pro',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'Animate',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'After Effects',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'Blender',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+
+                    {
+                        name: 'Cinema 4D',
+                        submodules: ['Introdução ao Illustrator', 'Desenho Vetorial', 'Criação de Logotipos', 'Trabalho com Tipografia', 'Design para Impressão', 'Exportação de Arquivos']
+                    },
+                ]
+            },
+            'ux-ui': {
+                title: 'Design de Experiência do Usuário',
+                icon: 'fas fa-paint-brush',
+                description: 'Aprenda a criar interfaces que são tanto bonitas quanto funcionais. Inclui design thinking, pesquisa de usuário, prototipação, testes de usabilidade e princípios de acessibilidade.',
+                progress: 0,
+                duration: '80h',
+                level: 'Intermediário',
+                modules: 8,
+                completed: 8,
+                modulesList: [
+                    {
+                        name: 'Fundamentos de UX/UI',
+                        submodules: ['Pesquisa de Usuário', 'Wireframing', 'Prototipação', 'Testes de Usabilidade', 'Design Responsivo', 'Acessibilidade']
+                    },
+                    // Adicione mais módulos conforme necessário
+                ]
+            },
+            'cloud': {
+                title: 'Computação em Nuvem Avançada',
+                icon: 'fas fa-cloud',
+                description: 'Domine os serviços de cloud computing das principais plataformas. Inclui AWS, Azure, Google Cloud, arquiteturas serverless, containers com Docker e Kubernetes, e boas práticas de infraestrutura.',
+                progress: 0,
+                duration: '100h',
+                level: 'Avançado',
+                modules: 12,
+                completed: 7,
+                modulesList: [
+                    {
+                        name: 'Fundamentos de Cloud',
+                        submodules: ['O que é Cloud Computing?', 'Modelos de Serviço', 'Modelos de Implantação', 'Segurança em Cloud', 'Custos e Orçamento', 'Tendências Futuras']
+                    },
+                    // Adicione mais módulos conforme necessário
+                ]
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseItems = document.querySelectorAll('.course-item');
+            const detailsPanel = document.getElementById('detailsPanel');
+            const noSelection = document.getElementById('noSelection');
+            const detailsContent = document.getElementById('detailsContent');
+            
+            courseItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    courseItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Show details
+                    const courseId = this.dataset.course;
+                    showCourseDetails(courseId);
+                });
+            });
+            
+            function showCourseDetails(courseId) {
+                const course = courseData[courseId];
+                
+                if (!course) return;
+                
+                // Hide no selection message and show details
+                noSelection.style.display = 'none';
+                detailsContent.style.display = 'block';
+                
+                // Update details
+                document.getElementById('detailsIcon').innerHTML = `<i class="${course.icon}"></i>`;
+                document.getElementById('detailsTitle').textContent = course.title;
+                document.getElementById('detailsDescription').textContent = course.description;
+                document.getElementById('detailsProgress').style.width = `${course.progress}%`;
+                
+                // Update stats
+                document.getElementById('statDuration').textContent = course.duration;
+                document.getElementById('statLevel').textContent = course.level;
+                document.getElementById('statModules').textContent = course.modules;
+                document.getElementById('statProgress').textContent = `${course.progress}%`;
+                
+                // Update modules list
+                const modulesList = document.getElementById('modulesList');
+                modulesList.innerHTML = '';
+                
+                course.modulesList.forEach(module => {
+                    const moduleItem = document.createElement('div');
+                    moduleItem.className = 'module-item';
+                    moduleItem.innerHTML = `
+                        <a href="#" class="module-link" onclick="toggleSubmodules(event, '${module.name}')">
+                            <i class="fas fa-plus"></i>
+                            <span>${module.name}</span>
+                        </a>
+                        <div class="submodules-list" id="${module.name.replace(/\s+/g, '-').toLowerCase()}-submodules">
+                            ${module.submodules.map(submodule => `
+                                <div class="submodule-item">
+                                    <a href="#${submodule.replace(/\s+/g, '-').toLowerCase()}" class="module-link">
+                                        <i class="fas fa-circle"></i>
+                                        <span>${submodule}</span>
+                                    </a>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    modulesList.appendChild(moduleItem);
+                });
+            }
+        });
+
+        function toggleSubmodules(event, moduleName) {
+            event.preventDefault(); // Previne o comportamento padrão do link
+            const submodulesList = document.getElementById(moduleName.replace(/\s+/g, '-').toLowerCase() + '-submodules');
+            if (submodulesList.style.display === 'none' || submodulesList.style.display === '') {
+                submodulesList.style.display = 'block'; // Mostra os submódulos
+            } else {
+                submodulesList.style.display = 'none'; // Oculta os submódulos
+            }
+        }
+    </script>
+</body>
+</html>
